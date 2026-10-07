@@ -1,0 +1,1473 @@
+/*
+ * parce-admin-ui — theme.
+ *
+ * Import after Tailwind:
+ *
+ *   @import 'tailwindcss';
+ *   @import '@doebling/parce-admin-ui/theme.css';
+ *
+ * A near-neutral graphite ground under a single desaturated teal-blue accent,
+ * with colour reserved for state. That accent is the only saturated field on a
+ * screen — everything else separates by value. Dark by default; the light and
+ * seasonal themes are at the end of the tokens.
+ *
+ * Everything downstream — the class vocabulary, the components, the screens —
+ * is written in terms of the tokens below, so a token change moves the whole
+ * interface at once.
+ */
+
+/* The components use Tailwind utilities too; this makes Tailwind see them. */
+@source './components';
+
+/* ── tokens: colour ──────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+
+  /*
+   * Danger, named for the hue. `--red-400` is what "this went wrong" reads in
+   * everywhere; it is never the accent — those roles point at the teal ramp
+   * below.
+   */
+  --red-100: #fbe7e2;
+  --red-200: #f7c9be;
+  --red-300: #f4a795;
+  --red-400: #ef8773;
+  --red-500: #dd6f59;
+  --red-600: #c25a45;
+  --red-700: #9c4636;
+  --red-800: #6f3227;
+  --red-tint: #291a17;
+  --red-tint-strong: #3a221d;
+
+  /*
+   * The accent, as its own ramp rather than an alias of the brand.
+   *
+   * 500 is the filled action, 400 the hover above it, 600 the press below —
+   * the direction the button roles already read in. 300 is the light step for
+   * accent text on an accent tint, which is the one place a mid step is too
+   * dark to read.
+   */
+  --teal-100: #e6f2f8;
+  --teal-200: #c2e2ef;
+  --teal-300: #79c0ff;
+  --teal-400: #48a0c7;
+  --teal-500: #297aa0;
+  --teal-600: #276782;
+  --teal-700: #1f5266;
+  --teal-800: #18404f;
+  --teal-tint: #1a2731;
+  --teal-tint-strong: #21323d;
+  /* The lit hover for a filled action — between 400 and 500, and neither. */
+  --teal-lift: #3994bc;
+  /* The badge fill, a step quieter than the button so a count never outranks
+     the action next to it. */
+  --teal-badge: #307e9f;
+
+  /*
+   * The accent ramp the classes are written against. Teal by default; a theme
+   * re-points these rather than the teal values, so `--teal-*` keeps meaning
+   * teal whatever the theme.
+   */
+  --accent-100: var(--teal-100);
+  --accent-200: var(--teal-200);
+  --accent-300: var(--teal-300);
+  --accent-400: var(--teal-400);
+  --accent-500: var(--teal-500);
+  --accent-600: var(--teal-600);
+  --accent-700: var(--teal-700);
+  --accent-800: var(--teal-800);
+  --accent-tint: var(--teal-tint);
+  --accent-tint-strong: var(--teal-tint-strong);
+  --accent-lift: var(--teal-lift);
+  --accent-badge: var(--teal-badge);
+
+  /* Neutral ramp (dark-first: n-0 is the ground, n-11 the brightest ink) */
+  --n-0: #121314;
+  --n-1: #191a1b;
+  --n-2: #202122;
+  --n-3: #242526;
+  --n-4: #2a2b2c;
+  --n-5: #35373a;
+  --n-6: #45484a;
+  --n-7: #5f6365;
+  --n-8: #8c8c8c;
+  --n-9: #bfbfbf;
+  --n-10: #c9d1d9;
+  --n-11: #e9eaeb;
+
+  /* Semantic status */
+  --green-500: #86cf86;
+  --green-tint: #16251a;
+  --amber-500: #e0b97f;
+  --amber-tint: #2a2115;
+  --blue-500: #57a3f8;
+  --blue-tint: #14212e;
+  --violet-500: #ad80d7;
+  --violet-tint: #221a2c;
+
+  /* Surfaces */
+  --surface-app: var(--n-0);
+  --surface-chrome: var(--n-1);
+  --surface-card: var(--n-2);
+  --surface-raised: var(--n-3);
+  /* A control is drawn on the chrome, not on the card: an input reads as a
+     well cut into the surface rather than a tile laid on it. */
+  --surface-input: var(--n-1);
+  --surface-hover: var(--n-2);
+  --surface-active: var(--n-3);
+  --surface-overlay: rgba(18, 19, 20, 0.72);
+  /* An image laid over the app ground — a glow, a pattern. Themes set it. */
+  --app-backdrop: none;
+
+  /*
+   * Lines. The design draws every edge — card, sidebar, control, divider — in
+   * one value, so the ramp collapses to a single visible hairline with a
+   * brighter step kept for the rare edge that has to separate from it.
+   */
+  --line-1: #2a2b2c;
+  --line-2: #2a2b2c;
+  --line-3: #3a3c3e;
+  --line-focus: var(--accent-lift);
+
+  /*
+   * Text. Strong is the near-white the titles are set in; body sits a step
+   * under it and carries the prose. Muted and faint are the same value in the
+   * source — one grey does all the secondary work — so faint is drawn a step
+   * darker here to keep a label from competing with the number above it.
+   */
+  --text-strong: var(--n-10);
+  --text-body: var(--n-9);
+  --text-muted: var(--n-8);
+  --text-faint: var(--n-7);
+  --text-on-accent: var(--n-11);
+  --text-accent: var(--accent-400);
+  --text-link: var(--accent-400);
+  --text-link-hover: var(--accent-300);
+
+  /* Accent roles */
+  --accent: var(--accent-500);
+  --accent-hover: var(--accent-lift);
+  --accent-press: var(--accent-600);
+  --accent-quiet: var(--accent-tint);
+  --accent-ring: color-mix(in srgb, var(--accent-lift) 45%, transparent);
+
+  /* Status roles */
+  --status-success-fg: var(--green-500);
+  --status-success-bg: var(--green-tint);
+  --status-warning-fg: var(--amber-500);
+  --status-warning-bg: var(--amber-tint);
+  --status-info-fg: var(--blue-500);
+  --status-info-bg: var(--blue-tint);
+  --status-danger-fg: var(--red-400);
+  --status-danger-bg: var(--red-tint);
+  --status-neutral-fg: var(--n-8);
+  --status-neutral-bg: var(--n-3);
+
+  /*
+   * Series colour, deliberately kept apart from status colour.
+   *
+   * The ramp above says how something is doing; the slots below say which
+   * thing it is. Borrowing one for the other is what makes a chart unreadable:
+   * a green series starts claiming "healthy", and a fourth category starts
+   * claiming "warning". So these are their own set, handed out in order and
+   * never cycled — a ninth series folds into "other" rather than wrapping back
+   * to slot 1, because two things in the same colour is worse than one thing
+   * called other.
+   *
+   * Stepped for the card surface and validated as a set: every slot
+   * clears 3:1 against --surface-card, all sit inside the dark lightness band,
+   * and no neighbouring pair collapses under protanopia, deuteranopia or
+   * tritanopia (worst adjacent CVD dE 8.4, normal vision 19.3). Re-ordering
+   * them is not a free change — the order is what the separation was measured
+   * on.
+   */
+  --viz-1: #3987e5;
+  --viz-2: #d95926;
+  --viz-3: #199e70;
+  --viz-4: #c98500;
+  --viz-5: #d55181;
+  --viz-6: #008300;
+  --viz-7: #9085e9;
+  --viz-8: #e66767;
+
+  /*
+   * The same eight, dropped towards the card they sit on. For the ground under
+   * a mark — a track behind a bar, a cell nobody hovered — where full strength
+   * would compete with the mark itself.
+   */
+  --viz-1-quiet: color-mix(in oklab, var(--viz-1) 20%, var(--surface-card));
+  --viz-2-quiet: color-mix(in oklab, var(--viz-2) 20%, var(--surface-card));
+  --viz-3-quiet: color-mix(in oklab, var(--viz-3) 20%, var(--surface-card));
+  --viz-4-quiet: color-mix(in oklab, var(--viz-4) 20%, var(--surface-card));
+  --viz-5-quiet: color-mix(in oklab, var(--viz-5) 20%, var(--surface-card));
+  --viz-6-quiet: color-mix(in oklab, var(--viz-6) 20%, var(--surface-card));
+  --viz-7-quiet: color-mix(in oklab, var(--viz-7) 20%, var(--surface-card));
+  --viz-8-quiet: color-mix(in oklab, var(--viz-8) 20%, var(--surface-card));
+
+  /*
+   * One hue, four steps, for a scale that is ordered rather than merely
+   * several — the funnel, a set of tiers, anything where step 3 means more
+   * than step 2. Brightness rises with the stage so the end of the run is the
+   * part that carries: on a dark ground, brighter is nearer.
+   *
+   * The darkest step stops at 2.15:1 against the card. Below that an ordinal
+   * step stops being a step and becomes a hole in the chart.
+   */
+  --viz-step-1: #184f95;
+  --viz-step-2: #2a78d6;
+  --viz-step-3: #5598e7;
+  --viz-step-4: #86b6ef;
+
+  /* The ground a mark is measured against, and the rules it is measured with. */
+  --viz-track: var(--n-4);
+  --viz-grid: #232527;
+  --viz-axis: var(--line-2);
+}
+
+/* ── tokens: type ────────────────────────────────────────────────────── */
+:root {
+  --font-core: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /*
+   * 13px is the ground and a screen is titled at 20px. That is a dense scale
+   * on purpose: this is an operator's console, and the whole state of what it
+   * runs is meant to sit above the fold.
+   */
+  --fs-display: 26px; --lh-display: 1.15; --tr-display: -0.015em;
+  --fs-h1: 20px;      --lh-h1: 1.25;      --tr-h1: -0.01em;
+  --fs-h2: 16px;      --lh-h2: 1.3;       --tr-h2: -0.005em;
+  --fs-h3: 14px;      --lh-h3: 1.4;       --tr-h3: 0em;
+  --fs-body: 13px;    --lh-body: 1.5;     --tr-body: 0em;
+  --fs-small: 12.5px; --lh-small: 1.45;
+  --fs-caption: 11.5px; --lh-caption: 1.35;
+  --fs-micro: 11px;   --lh-micro: 1.2;    --tr-micro: 0.06em;
+
+  /*
+   * IBM Plex Sans is only asked for three weights, and the heaviest of them is
+   * 600 — the design never boldens past it. `--fw-bold` and `--fw-extra` keep
+   * their names so the class layer is untouched, but both now resolve inside
+   * the range the face is loaded at; hierarchy here is size and space.
+   */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 600;
+  --fw-extra: 600;
+
+  --num-tabular: 'tnum' 1, 'lnum' 1;
+}
+
+/* ── tokens: spacing, radii, elevation, motion ───────────────────────── */
+:root {
+  --sp-0: 0px; --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px; --sp-16: 64px; --sp-20: 80px;
+
+  --sidebar-w: 236px;
+  --sidebar-w-collapsed: 60px;
+  --navbar-h: 56px;
+  --subnav-h: 44px;
+  --page-pad-x: 32px;
+  --page-pad-y: 28px;
+  --card-pad: 16px;
+  --card-pad-tight: 14px;
+  --control-h-sm: 28px;
+  --control-h-md: 36px;
+  --control-h-lg: 44px;
+  --row-h: 52px;
+  --gap-tight: 8px;
+  --gap-default: 16px;
+  --gap-section: 32px;
+
+  --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-2xl: 22px;
+  --r-pill: 999px;
+  --r-control: var(--r-sm);
+  --r-card: var(--r-md);
+  --r-sheet: var(--r-lg);
+  --r-tag: var(--r-pill);
+  --bw-hair: 1px;
+  --bw-thick: 2px;
+  --border-card: var(--bw-hair) solid var(--line-1);
+  --border-control: var(--bw-hair) solid var(--line-2);
+
+  /*
+   * A card in this design is a fill and a hairline, nothing more — the
+   * design casts no shadow at rest, and stacking one under every tile is what
+   * turns a dense grid into corduroy. Elevation is kept for what actually
+   * floats: menus, popovers, the dialog.
+   */
+  --shadow-0: none;
+  --shadow-1: none;
+  --shadow-2: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 16px 40px rgba(0, 0, 0, 0.65);
+  --shadow-accent: 0 6px 20px color-mix(in srgb, var(--accent) 30%, transparent);
+  --ring-focus: 0 0 0 3px var(--accent-ring);
+  --ring-inset: inset 0 0 0 1px var(--line-2);
+  --hairline-top: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --blur-overlay: blur(10px) saturate(120%);
+  --blur-chrome: blur(16px);
+
+  --dur-instant: 80ms; --dur-fast: 120ms; --dur-base: 180ms; --dur-slow: 260ms;
+  --ease-standard: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.5, 0, 1, 1);
+  --t-control:
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-fast) var(--ease-standard);
+  --t-surface:
+    background-color var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-out);
+  --press-scale: 0.985;
+}
+
+/* ── themes ──────────────────────────────────────────────────────────── */
+/*
+ * Everything above is the dark theme, and it is what a page gets with no
+ * `data-theme` at all. A theme is a set of overrides on the root element:
+ *
+ *   <html data-theme="light">     light | dark | halloween | christmas
+ *
+ * A theme re-points ramps and roles; it never touches a class. The ramps keep
+ * their direction across themes — the low steps are the ones that stand out
+ * against the ground, the high steps the ones that sink into it — so a class
+ * that asks for "accent text on an accent tint" reads in every theme.
+ *
+ * Series colour (`--viz-*`) stays the same everywhere: every slot clears 3:1
+ * against a white card as well as a dark one, and a chart whose colours moved
+ * with the theme would stop matching its own screenshots.
+ */
+
+/* Light. The same graphite and teal, turned over: white cards on a pale grey
+   ground, hairlines instead of value steps, and shadows that are only a hint. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --n-0: #f3f4f5;
+  --n-1: #fafbfb;
+  --n-2: #ffffff;
+  --n-3: #f1f2f3;
+  --n-4: #e7e9eb;
+  --n-5: #d9dcdf;
+  --n-6: #c4c8cd;
+  --n-7: #8a9096;
+  --n-8: #60666c;
+  --n-9: #3a3f44;
+  --n-10: #1b1e21;
+  --n-11: #0f1113;
+
+  --accent-100: #0e3446;
+  --accent-200: #144a63;
+  --accent-300: #1b5f7f;
+  --accent-400: #1f6f94;
+  --accent-500: #297aa0;
+  --accent-600: #236a8b;
+  --accent-700: #8cbfd8;
+  --accent-800: #c2e0ee;
+  --accent-tint: #e8f3f8;
+  --accent-tint-strong: #d6eaf3;
+  --accent-lift: #3389b1;
+  --accent-badge: #297aa0;
+
+  --red-100: #5c1d14;
+  --red-200: #7a2a1e;
+  --red-300: #a3392a;
+  --red-400: #c4452f;
+  --red-500: #dd6f59;
+  --red-600: #ec9a88;
+  --red-700: #f3b9ab;
+  --red-800: #f8d6cd;
+  --red-tint: #fdf0ed;
+  --red-tint-strong: #fbe2dc;
+
+  --green-500: #2a7a37;
+  --green-tint: #e8f5ea;
+  --amber-500: #99600a;
+  --amber-tint: #fbf1e1;
+  --blue-500: #2367c8;
+  --blue-tint: #e8f0fc;
+  --violet-500: #7b4bb3;
+  --violet-tint: #f2ebf9;
+
+  --surface-hover: #f5f6f7;
+  --surface-overlay: rgba(20, 22, 24, 0.35);
+  --line-1: #e3e5e8;
+  --line-2: #dcdfe3;
+  --line-3: #c4c8cd;
+  --text-on-accent: #ffffff;
+
+  --viz-step-1: #86b6ef;
+  --viz-step-2: #5598e7;
+  --viz-step-3: #2a78d6;
+  --viz-step-4: #184f95;
+  --viz-grid: #eceef0;
+
+  --shadow-2: 0 4px 14px rgba(16, 24, 40, 0.1);
+  --shadow-3: 0 16px 40px rgba(16, 24, 40, 0.16);
+  --hairline-top: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* An explicit dark, for a page that wants to say so. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+/*
+ * Halloween. A violet-black ground under a pumpkin accent, with a glow in two
+ * corners. Danger leans crimson here, so it never reads as the accent.
+ */
+:root[data-theme='halloween'] {
+  --n-0: #121014;
+  --n-1: #18151b;
+  --n-2: #1f1b23;
+  --n-3: #241f29;
+  --n-4: #2b2530;
+  --n-5: #372f3d;
+  --n-6: #483f50;
+  --n-7: #6b6075;
+  --n-8: #918799;
+  --n-9: #c2b9c8;
+  --n-10: #d8cfdc;
+  --n-11: #efe9f2;
+
+  --accent-100: #fff0e0;
+  --accent-200: #ffd6ad;
+  --accent-300: #ffb066;
+  --accent-400: #ff9a3c;
+  --accent-500: #f07d14;
+  --accent-600: #d0680c;
+  --accent-700: #9a4c0c;
+  --accent-800: #6b360c;
+  --accent-tint: #2a1c12;
+  --accent-tint-strong: #3a2514;
+  --accent-lift: #ff8c2a;
+  --accent-badge: #e07414;
+
+  --red-100: #fde4ea;
+  --red-200: #f9c0cd;
+  --red-300: #f594a8;
+  --red-400: #ee6a86;
+  --red-500: #d94f6d;
+  --red-600: #b93d59;
+  --red-700: #8f2f45;
+  --red-800: #642232;
+  --red-tint: #2a141b;
+  --red-tint-strong: #3b1a24;
+
+  --green-500: #9bd36a;
+  --green-tint: #1b2414;
+  --violet-tint: #2a1d36;
+
+  --surface-overlay: rgba(18, 16, 20, 0.72);
+  --line-1: #2b2530;
+  --line-2: #2b2530;
+  --line-3: #3d3444;
+  --text-on-accent: #1a1007;
+  --viz-grid: #28222c;
+
+  --app-backdrop:
+    radial-gradient(60rem 40rem at 100% 0%, rgba(140, 70, 200, 0.12), transparent 60%),
+    radial-gradient(50rem 35rem at 0% 100%, rgba(240, 125, 20, 0.09), transparent 60%);
+}
+
+/*
+ * Christmas. A pine ground under a gold accent, with a little snow. Gold
+ * rather than red, because red is danger — a red primary button would look
+ * like it deletes something. Warning moves towards orange to stay clear of
+ * the gold.
+ */
+:root[data-theme='christmas'] {
+  --n-0: #0c1611;
+  --n-1: #111d17;
+  --n-2: #16241d;
+  --n-3: #1b2a22;
+  --n-4: #213229;
+  --n-5: #2b3f35;
+  --n-6: #3b5045;
+  --n-7: #5f7068;
+  --n-8: #879690;
+  --n-9: #bac6c0;
+  --n-10: #d2ddd7;
+  --n-11: #ecf2ef;
+
+  --accent-100: #fff6dc;
+  --accent-200: #f9e3a6;
+  --accent-300: #f2cf6b;
+  --accent-400: #e8bd4a;
+  --accent-500: #d4a12a;
+  --accent-600: #b8871c;
+  --accent-700: #8a6517;
+  --accent-800: #5e4613;
+  --accent-tint: #252716;
+  --accent-tint-strong: #332d17;
+  --accent-lift: #e2b23c;
+  --accent-badge: #c9982a;
+
+  --red-100: #fde3e3;
+  --red-200: #f8bcbc;
+  --red-300: #f39191;
+  --red-400: #ec6b6b;
+  --red-500: #d94c4c;
+  --red-600: #bb3a3a;
+  --red-700: #922d2d;
+  --red-800: #672121;
+  --red-tint: #2a1716;
+  --red-tint-strong: #3a1d1c;
+
+  --amber-500: #eda05a;
+  --amber-tint: #2b1f14;
+  --green-tint: #15261b;
+
+  --surface-overlay: rgba(12, 22, 17, 0.72);
+  --line-1: #213229;
+  --line-2: #213229;
+  --line-3: #31473b;
+  --text-on-accent: #1a1405;
+  --viz-grid: #1d2c24;
+
+  --app-backdrop:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cg fill='white'%3E%3Ccircle cx='14' cy='22' r='1.3' opacity='.22'/%3E%3Ccircle cx='62' cy='118' r='1' opacity='.16'/%3E%3Ccircle cx='96' cy='40' r='1.6' opacity='.18'/%3E%3Ccircle cx='140' cy='176' r='1.2' opacity='.2'/%3E%3Ccircle cx='180' cy='74' r='1' opacity='.14'/%3E%3Ccircle cx='222' cy='138' r='1.5' opacity='.2'/%3E%3Ccircle cx='30' cy='196' r='1.1' opacity='.15'/%3E%3Ccircle cx='118' cy='226' r='.9' opacity='.14'/%3E%3Ccircle cx='200' cy='12' r='1.2' opacity='.18'/%3E%3Ccircle cx='76' cy='166' r='1.4' opacity='.12'/%3E%3Ccircle cx='160' cy='110' r='.8' opacity='.16'/%3E%3Ccircle cx='46' cy='72' r='.9' opacity='.14'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(70rem 30rem at 50% -10%, rgba(212, 161, 42, 0.08), transparent 70%);
+}
+
+/* Keep Tailwind's utility layer pointed at the same tokens, so a utility and a
+   component class can never disagree about what "surface" means. */
+@theme inline {
+  --color-background: var(--surface-app);
+  --color-foreground: var(--text-body);
+  --color-card: var(--surface-card);
+  --color-muted: var(--surface-raised);
+  --color-border: var(--line-1);
+  --font-sans: var(--font-core);
+  --font-mono: var(--font-mono);
+  --radius-md: var(--r-md);
+}
+
+/* ── base ────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--surface-app);
+  background-image: var(--app-backdrop);
+  background-attachment: fixed;
+  color: var(--text-body);
+  font: var(--fw-regular) var(--fs-body) / var(--lh-body) var(--font-core);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * The heading scale mapped onto the tags: h3 is a page title, h5 is a card
+ * title. Those are the two that matter, so they carry the two sizes that exist.
+ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-core);
+  font-weight: var(--fw-bold);
+  margin: 0 0 var(--sp-2);
+  color: var(--text-strong);
+}
+h1 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
+h3 { font-size: var(--fs-h1); line-height: var(--lh-h1); letter-spacing: var(--tr-h1); }
+h4 { font-size: var(--fs-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-h2); }
+h5 {
+  font-size: var(--fs-h3); line-height: var(--lh-h3); letter-spacing: var(--tr-h3);
+  font-weight: var(--fw-semibold);
+}
+h6 {
+  font: var(--fw-bold) var(--fs-micro) / var(--lh-micro) var(--font-core);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+p { margin: 0 0 var(--sp-3); }
+a { color: var(--text-link); text-decoration: none; text-underline-offset: 3px; }
+a:hover { color: var(--text-link-hover); }
+img { display: block; max-width: 100%; }
+
+:focus { outline: none; }
+/* A real outline rather than a ring, because a box-shadow ring is clipped by
+   every `overflow: hidden` card. */
+:focus-visible { outline: 2px solid var(--accent-lift); outline-offset: 2px; }
+::selection { background: var(--accent-600); color: var(--text-on-accent); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--n-4); border-radius: var(--r-pill);
+  border: 2px solid transparent; background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--n-5); background-clip: content-box; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/*
+ * The opt-out covers the whole effect, including the root cross-fade the
+ * browser adds on its own — an animation nobody asked for is worse than a
+ * navigation that simply happens.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@keyframes parce-spin { to { transform: rotate(360deg); } }
+@keyframes parce-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ── type roles ──────────────────────────────────────────────────────── */
+.p-display { font: var(--fw-extra) var(--fs-display)/var(--lh-display) var(--font-core); letter-spacing: var(--tr-display); color: var(--text-strong); }
+.p-h1 { font: var(--fw-bold) var(--fs-h1)/var(--lh-h1) var(--font-core); letter-spacing: var(--tr-h1); color: var(--text-strong); }
+.p-h2 { font: var(--fw-bold) var(--fs-h2)/var(--lh-h2) var(--font-core); letter-spacing: var(--tr-h2); color: var(--text-strong); }
+.p-h3 { font: var(--fw-semibold) var(--fs-h3)/var(--lh-h3) var(--font-core); letter-spacing: var(--tr-h3); color: var(--text-strong); }
+.p-body { font: var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-core); color: var(--text-body); }
+.p-small { font: var(--fw-regular) var(--fs-small)/var(--lh-small) var(--font-core); color: var(--text-muted); }
+.p-caption { font: var(--fw-medium) var(--fs-caption)/var(--lh-caption) var(--font-core); color: var(--text-muted); }
+.p-num { font: var(--fw-bold) var(--fs-h1)/1 var(--font-core); font-feature-settings: var(--num-tabular); color: var(--text-strong); }
+
+.text-muted { color: var(--text-muted); }
+.text-faint { color: var(--text-faint); }
+.tabular { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* The uppercase micro label, used for every kicker, column group and stat name. */
+.lbl {
+  font: var(--fw-bold) var(--fs-micro) / var(--lh-micro) var(--font-core);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.num {
+  font: var(--fw-bold) var(--fs-h1) / 1 var(--font-core);
+  letter-spacing: var(--tr-h1);
+  font-feature-settings: var(--num-tabular);
+  color: var(--text-strong);
+}
+
+/*
+ * The band heading — "Revenue", "Open invoices".
+ *
+ * A screen in this design is a stack of named bands rather than a page with
+ * subheadings, so the label is set at body size and let go quiet: it names the
+ * group without competing with the numbers under it. Distinct from `.lbl`,
+ * which is the smaller kicker used inside a card.
+ */
+.sect {
+  margin: 0;
+  font: var(--fw-semibold) var(--fs-body) / 1.3 var(--font-core);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/*
+ * The status dot, for anything with a health: a service, a connection, a
+ * stream. Colour is passed in; the shape is here so screens cannot each invent
+ * their own diameter.
+ */
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: currentColor;
+}
+.dot-sm { width: 5px; height: 5px; }
+
+/* A solid hairline. */
+.hr {
+  height: 1px;
+  border: 0;
+  margin: var(--sp-4) 0;
+  background: var(--line-1);
+}
+
+/* ── buttons ─────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: var(--control-h-md);
+  padding: 0 14px;
+  border-radius: var(--r-control);
+  border: 1px solid transparent;
+  font-family: var(--font-core);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  color: var(--text-body);
+  transition: var(--t-control), transform var(--dur-instant) var(--ease-standard);
+}
+.btn svg { display: block; }
+.btn:active:not(:disabled) { transform: scale(var(--press-scale)); }
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  background: var(--surface-raised);
+  color: var(--text-faint);
+  border-color: var(--line-1);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary { background: var(--accent); color: var(--text-on-accent); border-color: transparent; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); color: var(--text-on-accent); }
+.btn-primary:active:not(:disabled) { background: var(--accent-press); }
+
+.btn-secondary { background: var(--surface-raised); color: var(--text-strong); border-color: var(--line-2); }
+.btn-secondary:hover:not(:disabled) { background: var(--surface-active); color: var(--text-strong); }
+.btn-secondary:active:not(:disabled) { background: var(--n-5); }
+
+.btn-ghost { background: transparent; color: var(--text-muted); border-color: transparent; }
+.btn-ghost:hover:not(:disabled) { background: var(--surface-hover); color: var(--text-strong); }
+.btn-ghost:active:not(:disabled) { background: var(--surface-active); }
+
+.btn-danger { background: var(--red-tint-strong); color: var(--red-300); border-color: var(--red-700); }
+.btn-danger:hover:not(:disabled) { background: var(--red-800); color: var(--red-200); }
+.btn-danger:active:not(:disabled) { background: var(--red-700); }
+
+.btn-sm { height: var(--control-h-sm); padding: 0 10px; font-size: var(--fs-caption); gap: 6px; }
+.btn-lg { height: var(--control-h-lg); padding: 0 20px; font-size: var(--fs-h3); gap: 10px; }
+.btn-icon { width: var(--control-h-md); height: var(--control-h-md); padding: 0; }
+.btn-sm.btn-icon { width: var(--control-h-sm); height: var(--control-h-sm); }
+.btn-block { display: flex; width: 100%; }
+
+/* The bare icon button of the chrome: no fill until it is pointed at. */
+.iconbtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h-md);
+  height: var(--control-h-md);
+  flex: none;
+  padding: 0;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  cursor: pointer;
+  transition: var(--t-control);
+}
+.iconbtn:hover { background: var(--surface-hover); color: var(--text-strong); }
+.iconbtn[data-on='1'] { background: var(--surface-active); color: var(--text-strong); }
+.iconbtn-sm { width: var(--control-h-sm); height: var(--control-h-sm); }
+/*
+ * The count sits on the corner, half outside the button, so it only clips the
+ * glyph's corner. Inside the 36px box at 15px plus padding and border it was
+ * 27px wide and covered a 16px icon entirely.
+ */
+.iconbtn-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-radius: var(--r-pill);
+  border: 2px solid var(--surface-app);
+  box-sizing: border-box;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── forms ───────────────────────────────────────────────────────────── */
+.field > label {
+  display: block;
+  margin-bottom: 6px;
+  font: var(--fw-semibold) var(--fs-caption) / 1.2 var(--font-core);
+  color: var(--text-body);
+}
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--fs-caption);
+  color: var(--text-faint);
+}
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: var(--fs-caption);
+  color: var(--red-400);
+}
+
+.input,
+select.input,
+textarea.input {
+  width: 100%;
+  height: var(--control-h-md);
+  padding: 0 10px;
+  font-family: var(--font-core);
+  font-size: var(--fs-body);
+  color: var(--text-strong);
+  caret-color: var(--accent);
+  background: var(--surface-input);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-control);
+  transition: var(--t-control);
+}
+.input::placeholder { color: var(--text-faint); }
+.input:hover:not(:disabled) { border-color: var(--line-3); }
+.input:focus-visible,
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: var(--ring-focus);
+  outline: none;
+}
+.input:disabled { background: var(--surface-chrome); color: var(--text-faint); cursor: not-allowed; }
+.input-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.input-sm { height: var(--control-h-sm); font-size: var(--fs-caption); }
+textarea.input {
+  height: auto;
+  min-height: 90px;
+  padding: 8px 10px;
+  line-height: var(--lh-body);
+  resize: vertical;
+}
+select.input {
+  appearance: none;
+  padding-right: 30px;
+  cursor: pointer;
+  /* The chevron is drawn rather than imported, so the control needs no glyph. */
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-faint) 50%),
+    linear-gradient(135deg, var(--text-faint) 50%, transparent 50%);
+  background-position: calc(100% - 15px) calc(50% + 1px), calc(100% - 10px) calc(50% + 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+input[type='range'] { accent-color: var(--accent); }
+/* `:not(.switch)`, or this would outrank the switch below and squash it to 15px. */
+input[type='checkbox']:not(.switch) { accent-color: var(--accent); width: 15px; height: 15px; }
+
+/* The segmented control: one track, hairline dividers, accent on the chosen leaf. */
+.seg {
+  --seg-radius: calc(var(--r-control) - 1px);
+  display: inline-flex;
+  overflow: hidden;
+  height: var(--control-h-md);
+  background: var(--surface-input);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-control);
+}
+.seg-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 0;
+  transition: var(--t-control);
+}
+.seg-opt:first-child { border-start-start-radius: var(--seg-radius); border-end-start-radius: var(--seg-radius); }
+.seg-opt:last-child { border-start-end-radius: var(--seg-radius); border-end-end-radius: var(--seg-radius); }
+.seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.seg-opt + .seg-opt { border-left: 1px solid var(--line-2); }
+.seg-opt:has(input:checked) { background: var(--accent-quiet); color: var(--accent-300); }
+.seg-opt:not(:has(input:checked)):hover { background: var(--surface-hover); color: var(--text-strong); }
+.seg-opt:has(input:focus-visible) { box-shadow: inset 0 0 0 2px var(--accent); }
+
+/*
+ * The switch, for a setting that is a policy rather than a value.
+ *
+ * A styled `input[type=checkbox]`, not a button: it stays a real form control,
+ * so it submits with the form it is in and keeps the keyboard behaviour the
+ * platform already gives it.
+ */
+.switch {
+  appearance: none;
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--n-5);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-1);
+  transition: left var(--dur-base) var(--ease-out);
+}
+.switch:checked { background: var(--accent); }
+.switch:checked::after { left: 19px; }
+.switch:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── tags and badges ─────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: var(--r-xs);
+  font-family: var(--font-core);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.tag-uppercase {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+}
+.tag-neutral { background: var(--status-neutral-bg); color: var(--status-neutral-fg); }
+.tag-accent { background: var(--accent-quiet); color: var(--accent-300); }
+.tag-success, .tag-good { background: var(--status-success-bg); color: var(--status-success-fg); }
+.tag-warning, .tag-warn { background: var(--status-warning-bg); color: var(--status-warning-fg); }
+.tag-info { background: var(--status-info-bg); color: var(--status-info-fg); }
+.tag-danger, .tag-bad { background: var(--status-danger-bg); color: var(--status-danger-fg); }
+.tag-outline { background: transparent; border: 1px solid var(--accent-700); color: var(--accent-300); }
+
+/* The pill form, for a lifecycle state that carries its own dot. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px 0 8px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  background: var(--surface-raised);
+  border: 1px solid var(--line-2);
+  color: var(--text-muted);
+}
+.pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: currentColor;
+  flex: none;
+}
+
+/* ── cards ───────────────────────────────────────────────────────────── */
+.card {
+  min-width: 0;
+  background: var(--surface-card);
+  border: var(--border-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+.card-quiet { background: var(--surface-chrome); }
+.card-accent { border-color: var(--red-800); }
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--card-pad);
+  border-bottom: var(--border-card);
+}
+/*
+ * The card clips to keep its rounded corners, so a wide table inside it has to
+ * scroll rather than be cut off.
+ */
+.card-body { padding: var(--card-pad); overflow-x: auto; }
+.card-foot {
+  padding: var(--sp-3) var(--card-pad);
+  border-top: var(--border-card);
+  background: var(--surface-chrome);
+}
+
+/* A card that carries its padding directly, for the callouts written inline. */
+.panel {
+  min-width: 0;
+  overflow-x: auto;
+  padding: var(--card-pad);
+  background: var(--surface-card);
+  border: var(--border-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+}
+
+/* The stat tile: a label nobody reads twice, a number they do. */
+.kpi {
+  position: relative;
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--card-pad-tight) var(--sp-4);
+  background: var(--surface-card);
+  border: var(--border-card);
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+
+/*
+ * A tile that has been given a colour wears it twice: a rule along the top
+ * edge and a chip behind the icon. Both are the tile's identity, not its
+ * health — so the colour is fixed per tile and never moves with the number.
+ * A row of tiles that changed colour with their values would read as a set of
+ * traffic lights nobody set the rules for.
+ */
+.kpi-accent::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--kpi-accent);
+}
+.kpi-chip {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: var(--r-sm);
+  color: var(--kpi-accent);
+  background: color-mix(in oklab, var(--kpi-accent) 16%, var(--surface-card));
+}
+
+/* ── tables ──────────────────────────────────────────────────────────── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-body);
+}
+.table th {
+  padding: 0 var(--sp-4);
+  height: 38px;
+  text-align: left;
+  font: var(--fw-bold) var(--fs-micro) / var(--lh-micro) var(--font-core);
+  letter-spacing: var(--tr-micro);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+  background: var(--surface-chrome);
+  border-top: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--line-1);
+}
+.table td {
+  padding: var(--sp-2) var(--sp-4);
+  color: var(--text-body);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--line-1);
+}
+/*
+ * Row height is left to the content rather than pinned to `--row-h`.
+ *
+ * Two-line rows land on 52px on their own with this padding. Imposing that as
+ * a floor would make every single-line table half again as tall for no
+ * information gained.
+ */
+.table tbody tr { transition: background-color var(--dur-fast) var(--ease-standard); }
+.table tbody tr:hover { background: var(--surface-hover); }
+.table tbody tr:last-child td { border-bottom: 0; }
+/* A row the reader has picked out, in the accent's quietest register. */
+.table tbody tr[data-on='1'] { background: var(--accent-tint); }
+.table tbody tr[data-on='1']:hover { background: var(--accent-tint-strong); }
+
+/* Scoped to the table so it also beats `.table th`'s left alignment. */
+.cell-r, .table .cell-r { text-align: right; font-variant-numeric: tabular-nums; }
+
+/*
+ * A truncating table cell.
+ *
+ * In an auto-layout table a cell never shrinks below its content, so a long
+ * title simply widens the row and pushes every other column off screen.
+ * `max-width: 0` is the standard trick: it tells the browser the cell has no
+ * preferred width, so it takes what is left and the ellipsis finally applies.
+ */
+.cell-truncate { max-width: 0; overflow: hidden; }
+.cell-truncate > * { min-width: 0; }
+
+/* ── navigation ──────────────────────────────────────────────────────── */
+.navitem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 32px;
+  /*
+   * Do not let the sidebar squash it: as a direct child of a scrolling flex
+   * column, flex-shrink would collapse the row down to its icon once the list
+   * overflows.
+   */
+  flex-shrink: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--r-control);
+  background: transparent;
+  color: var(--text-body);
+  /*
+   * A real line height, because the label truncates.
+   *
+   * `text-overflow: ellipsis` needs `overflow: hidden`, and what that clips to
+   * is the line box — which at `line-height: 1` ends on the baseline, slicing
+   * every descender off square. The row is a fixed 32px and centred, so giving
+   * the text its proper box costs no height; it only stops cutting the tails
+   * off.
+   */
+  font: var(--fw-regular) var(--fs-body) / var(--lh-body) var(--font-core);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--t-control);
+}
+.navitem:hover { background: var(--surface-hover); color: var(--text-strong); }
+.navitem[data-on='1'] { background: var(--surface-active); color: var(--text-strong); }
+/* The icon is what carries the accent in a nav row — the label stays ink. */
+.navitem svg { flex: none; color: var(--text-muted); transition: var(--t-control); }
+.navitem[data-on='1'] svg { color: var(--accent-400); }
+/* The active rail: two pixels at the leading edge, so the eye finds the current
+   view without the label having to shout. */
+.navitem[data-on='1']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: var(--r-pill);
+  background: var(--accent-lift);
+}
+/*
+ * Two trailing numbers, because they answer different questions.
+ *
+ * A count is scale — how many records, how many accounts — and stays a bare
+ * grey numeral that the eye can skip. A badge is a queue with something in it
+ * waiting for the operator, and takes a fill so it cannot be skipped. Giving
+ * both a chip makes a sidebar read as uniformly urgent.
+ */
+.navitem-count {
+  margin-left: auto;
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.navitem-badge {
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: var(--r-pill);
+  background: var(--accent-badge);
+  color: var(--text-on-accent);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+}
+.navitem-badge-warn { background: var(--amber-500); color: var(--n-0); }
+.navitem-badge-bad { background: var(--red-400); color: var(--n-0); }
+/* The count on the active row lifts a step and stays a bare numeral. A badge
+   earns a fill because it is a queue wanting work; a count is just how many
+   there are. */
+.navitem[data-on='1'] .navitem-count { color: var(--text-body); }
+
+/* The underlined tab strip that filters a collection. */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--subnav-h);
+  border-bottom: 1px solid var(--line-1);
+  overflow-x: auto;
+}
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  font: var(--fw-medium) var(--fs-body) / 1 var(--font-core);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--t-control);
+}
+.tab:hover { color: var(--text-body); }
+.tab[aria-selected='true'] { color: var(--text-strong); font-weight: var(--fw-bold); }
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: var(--r-pill);
+  background: transparent;
+}
+.tab[aria-selected='true']::after { background: var(--accent); }
+.tab-count {
+  font-size: var(--fs-caption);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+
+/* ── charts ──────────────────────────────────────────────────────────── */
+.meter {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--n-4);
+  overflow: hidden;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-pill);
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+/*
+ * ── charts: the series marks ─────────────────────────────────────────
+ *
+ * The vocabulary the charts are written in. The one rule that shapes the rest:
+ * a mark is coloured by which series it belongs to, so hover cannot also be a
+ * colour change — a bar that turned red under the pointer would be claiming to
+ * have changed series. Pointing at a column dims the others instead.
+ */
+.vchart {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  width: 100%;
+}
+
+.vcol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  /* The 2px that keeps two stacked segments from reading as one long mark. */
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: default;
+  border-radius: 3px;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+/* Everything the pointer is not on steps back, so the column it is on reads
+   without any mark having to change colour to say so. */
+.vchart[data-hovering='1'] .vcol:not(.vcol-on) { opacity: 0.35; }
+.vcol:focus-visible { box-shadow: var(--ring-focus); }
+
+.vseg {
+  min-height: 0;
+  background: var(--vseg-fill, var(--viz-1));
+  transition: height var(--dur-slow) var(--ease-out);
+}
+/* Only the end of the stack is rounded: a radius on every segment would put a
+   notch in the middle of a bar and invent a gap the data does not have. */
+.vcol > .vseg:first-child { border-radius: 4px 4px 0 0; }
+
+/* The floor the columns stand on, and the rules behind them. Both recessive:
+   a gridline that competes with a bar is answering a question nobody asked. */
+.vgrid { stroke: var(--viz-grid); stroke-width: 1; }
+.vbase { border-top: 1px solid var(--viz-axis); }
+.vtick { font: var(--fw-medium) var(--fs-micro) / 1 var(--font-core); color: var(--text-faint); }
+
+/* Identity, spelled out. Present whenever there is more than one series —
+   the swatch carries the colour so the label never has to. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-4);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--fw-medium) var(--fs-caption) / 1 var(--font-core);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.legend-key { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.legend-value { font-variant-numeric: tabular-nums; color: var(--text-body); }
+
+/* The ring. Segments are drawn as one stroked circle each, so the 2px gap
+   between them is the card showing through rather than a drawn line. */
+.donut-seg { transition: opacity var(--dur-fast) var(--ease-standard); }
+.donut[data-hovering='1'] .donut-seg:not(.donut-seg-on) { opacity: 0.3; }
+.donut-hit { cursor: default; }
+
+/* A ranked row: label, track, figure. The track is the same one the meter
+   uses, so a share reads the same wherever it appears. */
+.rank-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vseg, .vcol, .donut-seg { transition: none; }
+}
+
+/* ── dialog ──────────────────────────────────────────────────────────── */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-6);
+  background: var(--surface-overlay);
+  backdrop-filter: var(--blur-overlay);
+}
+.dialog {
+  width: min(460px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: var(--r-sheet);
+  background: var(--surface-card);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-3);
+  animation: parce-rise var(--dur-slow) var(--ease-out) both;
+}
+.dialog-title { font: var(--fw-bold) var(--fs-h2) / var(--lh-h2) var(--font-core); color: var(--text-strong); }
+.dialog-body { font-size: var(--fs-small); color: var(--text-muted); }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--sp-2); margin-top: var(--sp-2); }
+
+/* ── pagination ──────────────────────────────────────────────────────── */
+.pg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  padding: 0 8px;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+  border-radius: var(--r-control);
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: var(--t-control);
+}
+.pg:hover { background: var(--surface-hover); color: var(--text-strong); }
+.pg-on { background: var(--accent-quiet); border-color: var(--accent-700); color: var(--accent-300); }
+/* An end of the range is shown, not hidden — the control keeps its shape. */
+.pg-off { opacity: 0.3; pointer-events: none; }
+
+/* ── live indicator ──────────────────────────────────────────────────── */
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 0%, transparent);
+}
+.live-pulse { animation: live-pulse 2s ease-out infinite; }
+@keyframes live-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green-500) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 5px color-mix(in srgb, var(--green-500) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green-500) 0%, transparent); }
+}
+/* A pulsing dot is decoration; someone who asked for less motion still needs
+   the colour, which carries the actual state. */
+@media (prefers-reduced-motion: reduce) {
+  .live-pulse { animation: none; }
+}
+
+/* ── chart tooltips ──────────────────────────────────────────────────── */
+.chart-tip {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  padding: 7px 10px;
+  border-radius: var(--r-md);
+  background: var(--surface-card);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-2);
+  font-size: var(--fs-caption);
+  line-height: 1.45;
+  white-space: nowrap;
+}
+/* A small pointer, tracking the anchor rather than the tooltip's centre, so an
+   edge-clamped tooltip still points at the mark it describes. */
+.chart-tip::after {
+  content: '';
+  position: absolute;
+  left: var(--tip-arrow);
+  width: 7px;
+  height: 7px;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--surface-card);
+  border: 1px solid var(--line-2);
+}
+.chart-tip::after { bottom: -4.5px; border-top: 0; border-left: 0; }
+.chart-tip-below::after { bottom: auto; top: -4.5px; border: 1px solid var(--line-2); border-bottom: 0; border-right: 0; }
+
+/* Values lead, labels follow: the reader already has the series and wants the
+   number, which is the legend's hierarchy inverted. */
+.tip-value { font-variant-numeric: tabular-nums; color: var(--text-strong); }
+.tip-label { color: var(--text-faint); font-size: var(--fs-micro); }
+.tip-key { display: inline-block; width: 10px; height: 2px; border-radius: 1px; vertical-align: middle; }
+
+/* The sparkline's focusable wrapper. It carries no chrome of its own — the
+   chart is the control — but focus must still be visible. */
+.spark {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 3px;
+  cursor: crosshair;
+  line-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* A table row that leads somewhere. Inherits its colour so the cell reads as
+   text until it is hovered — a table of blue links is a table nobody can scan. */
+.row-link {
+  color: inherit;
+  text-decoration: none;
+}
+.row-link:hover {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

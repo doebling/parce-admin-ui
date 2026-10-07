@@ -1,0 +1,48 @@
+/*
+ * parce-admin-ui — legacy aliases. Optional.
+ *
+ *   @import '@doebling/parce-admin-ui/theme.css';
+ *   @import '@doebling/parce-admin-ui/compat.css';
+ *
+ * Older generic names (`--color-good`, `--color-divider`, …) pointed at the
+ * theme's tokens, so screens written against them pick up the theme without
+ * being touched. Since these sit on Tailwind's `--color-*` namespace, they
+ * also re-point utilities such as `text-neutral-400` at the theme's ramp.
+ * New code should use the tokens in theme.css.
+ */
+:root {
+  --color-bg: var(--surface-app);
+  --color-surface: var(--surface-card);
+  --color-text: var(--text-body);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent);
+  --color-divider: var(--line-2);
+
+  --color-neutral-100: var(--n-11); --color-neutral-200: var(--n-10); --color-neutral-300: var(--n-9);
+  --color-neutral-400: var(--n-8);  --color-neutral-500: var(--n-8);  --color-neutral-600: var(--n-7);
+  --color-neutral-700: var(--n-6);  --color-neutral-800: var(--n-4);  --color-neutral-900: var(--n-3);
+
+  --color-accent-100: var(--accent-100); --color-accent-200: var(--accent-200); --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400); --color-accent-500: var(--accent-500); --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700); --color-accent-800: var(--accent-800); --color-accent-900: var(--accent-tint-strong);
+
+  --color-good: var(--green-500);
+  --color-warn: var(--amber-500);
+  --color-bad: var(--red-400);
+
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-2);
+  --shadow-lg: var(--shadow-3);
+
+  --font-heading: var(--font-core);
+  --font-heading-weight: var(--fw-bold);
+  --font-body: var(--font-core);
+
+  --space-1: var(--sp-1); --space-2: var(--sp-2); --space-3: var(--sp-3);
+  --space-4: var(--sp-4); --space-6: var(--sp-6); --space-8: var(--sp-8);
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+}
+

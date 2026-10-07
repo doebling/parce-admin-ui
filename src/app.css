@@ -1,0 +1,3 @@
+/* What a consuming app writes — here pointed at the source instead of the package. */
+@import 'tailwindcss';
+@import './lib/theme.css';
