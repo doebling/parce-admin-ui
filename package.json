@@ -1,6 +1,6 @@
 {
   "name": "@doebling/parce-admin-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A dense admin UI kit for SvelteKit and Tailwind CSS 4 — dark by default, with light and seasonal themes.",
   "license": "MIT",
   "type": "module",
