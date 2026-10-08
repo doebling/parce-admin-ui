@@ -118,7 +118,7 @@ Tailwind's `bg-background`, `text-foreground`, `bg-card`, `bg-muted`, `border-bo
 | `dark`      | Graphite and teal. The default — no attribute needed.       |
 | `light`     | The same palette turned over: white cards on pale grey.     |
 | `halloween` | Violet-black ground, pumpkin accent, a glow in two corners. |
-| `christmas` | Pine ground, gold accent, a little snow.                    |
+| `christmas` | Pine ground, gold accent, falling snow.                     |
 
 A theme is an attribute on the root element:
 
@@ -141,6 +141,8 @@ To let people pick one, drop in the switcher and add a small script to `src/app.
   } catch (e) {}
 </script>
 ```
+
+The snow in `christmas` falls behind the content and stands still for anyone who prefers reduced motion. To switch it off entirely, set `data-snow="off"` on `<html>`.
 
 Or drive it yourself with `setTheme('christmas')`, `getThemeChoice()` and `resolveTheme()`; `themes` lists the names. `system` follows the OS between light and dark.
 
