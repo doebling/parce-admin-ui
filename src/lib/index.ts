@@ -12,6 +12,7 @@ export { default as Empty } from './components/empty.svelte';
 export { default as Notice } from './components/notice.svelte';
 export { default as Meter } from './components/meter.svelte';
 export { default as ThemeSwitcher } from './components/theme-switcher.svelte';
+export { default as Snow } from './components/snow.svelte';
 export type { ButtonVariant, ButtonSize } from './components/button.svelte';
 export type { BadgeVariant } from './components/badge.svelte';
 export type { TabItem } from './components/tabs.svelte';

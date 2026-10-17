@@ -75,6 +75,7 @@ Peer dependencies: `svelte` 5, `tailwindcss` 4 (with `@tailwindcss/vite`), `luci
 | `Meter`         | Share or health bar, `pct` 0–100                                                            |
 | `Notice`        | Tinted band for `warning` · `danger` · `info` · `success`                                   |
 | `ThemeSwitcher` | A select for the theme that stores the choice and follows the OS on `system`                |
+| `Snow`          | Canvas snow for `christmas`: depth, sway and gusts of wind; `density`, `wind`, `themes`    |
 | `Empty`         | Empty state with icon, description and an `action` snippet                                  |
 
 Also exported: `cn()` (clsx + tailwind-merge), the `IconType` type, and the theme helpers below.
@@ -118,7 +119,7 @@ Tailwind's `bg-background`, `text-foreground`, `bg-card`, `bg-muted`, `border-bo
 | `dark`      | Graphite and teal. The default — no attribute needed.       |
 | `light`     | The same palette turned over: white cards on pale grey.     |
 | `halloween` | Violet-black ground, pumpkin accent, a glow in two corners. |
-| `christmas` | Pine ground, gold accent, falling snow.                     |
+| `christmas` | Fir ground, holly-red accent, gold glow, falling snow.      |
 
 A theme is an attribute on the root element:
 
@@ -142,7 +143,7 @@ To let people pick one, drop in the switcher and add a small script to `src/app.
 </script>
 ```
 
-The snow in `christmas` falls behind the content and stands still for anyone who prefers reduced motion. To switch it off entirely, set `data-snow="off"` on `<html>`.
+The snow in `christmas` falls behind the content and stands still for anyone who prefers reduced motion. To switch it off entirely, set `data-snow="off"` on `<html>`. The theme alone brings a plain CSS snow; mount `<Snow />` once in your root layout for the fuller one — every flake on its own path, with depth and wind — which replaces it while it runs.
 
 Or drive it yourself with `setTheme('christmas')`, `getThemeChoice()` and `resolveTheme()`; `themes` lists the names. `system` follows the OS between light and dark.
 
